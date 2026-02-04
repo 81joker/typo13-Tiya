@@ -35,8 +35,8 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "8.3"
-          extensions: intl, mbstring, xml, soap, zip, curl
+          php-version: "8.1"
+          extensions: intl, mbstring, xml, soap, zip, curl , redis
 
       - name: Install TYPO3 Tailor
         run: composer global require typo3/tailor --no-progress --prefer-dist
