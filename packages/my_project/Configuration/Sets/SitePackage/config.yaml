@@ -1,0 +1,5 @@
+name: tim/my-project
+label: 'My project'
+dependencies:
+  - typo3/fluid-styled-content
+  - typo3/fluid-styled-content-css

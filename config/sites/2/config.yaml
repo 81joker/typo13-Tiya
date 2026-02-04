@@ -1,0 +1,16 @@
+base: /about
+dependencies:
+  - tim/my-project
+languages:
+  -
+    title: English
+    enabled: true
+    locale: en_US.utf8
+    hreflang: ''
+    base: /
+    websiteTitle: ''
+    navigationTitle: English
+    flag: global
+    languageId: 0
+rootPageId: 2
+websiteTitle: ''

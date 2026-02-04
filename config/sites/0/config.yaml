@@ -1,0 +1,18 @@
+base: /
+dependencies:
+  - tim/my-project
+  - typo3/fluid-styled-content
+  - typo3/fluid-styled-content-css
+languages:
+  -
+    title: English
+    enabled: true
+    locale: en_US.utf8
+    hreflang: ''
+    base: /
+    websiteTitle: ''
+    navigationTitle: ''
+    flag: global
+    languageId: 0
+rootPageId: 1
+websiteTitle: ''
