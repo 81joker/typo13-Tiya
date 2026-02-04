@@ -47,6 +47,7 @@ jobs:
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: 145.14.156.90
+          key: ${{ secrets.HOSTINGER_SSH_KEY }}
           username: u749335993
           password: ${{ secrets.HOSTINGER_SSH_PASSWORD }}
           port: 65002
