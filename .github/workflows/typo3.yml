@@ -26,8 +26,8 @@ jobs:
       - name: Install TYPO3 Tailor
         run: composer global require typo3/tailor --no-progress --prefer-dist
 
-      - name: Publish extension to TER
-        run: |
-          ~/.composer/vendor/bin/tailor ter:publish \
-            $TYPO3_EXTENSION_KEY \
-            $VERSION
+      # - name: Publish extension to TER
+      #   run: |
+      #     ~/.composer/vendor/bin/tailor ter:publish \
+      #       $TYPO3_EXTENSION_KEY \
+      #       $VERSION
