@@ -56,4 +56,3 @@ jobs:
             cd ${{ secrets.HOSTINGER_PATH }}
             git pull origin main
             composer install --no-dev --optimize-autoloader
-            php vendor/bin/typo3 cache:flush
