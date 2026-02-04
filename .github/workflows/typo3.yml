@@ -20,7 +20,7 @@ jobs:
           extensions: intl, mbstring, xml, soap, zip, curl
 
       - name: Cache composer dependencies
-        uses: actions/cache@v1
+        uses: actions/cache@v3
         with:
           path: ~/.composer/cache
           key: php-${{ matrix.php-versions }}-typo3-${{ matrix.typo3-versions }}-composer-${{ hashFiles('composer.json') }}
