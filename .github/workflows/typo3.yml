@@ -46,12 +46,14 @@ jobs:
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.0.0
         with:
-          host: ${{ secrets.HOSTINGER_SSH_HOST }}
+          host: 145.14.156.90
           username: ${{ secrets.HOSTINGER_SSH_USER }}
           key: ${{ secrets.HOSTINGER_SSH_KEY }}
+          password: "@Joker981981"
+          port: 65002
+
           script: |
             cd ${{ secrets.HOSTINGER_PATH }}
             git pull origin main
             composer install --no-dev --optimize-autoloader
             php vendor/bin/typo3 cache:flush
-            # php vendor/bin/typo3 database:migrate
