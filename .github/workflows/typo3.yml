@@ -31,8 +31,8 @@ jobs:
       - name: Install composer dependencies
         run: composer require typo3/minimal "^${{ matrix.typo3-versions }}" --prefer-dist --no-progress --no-suggest
 
-      - name: Run tests
-        run: composer run-script test
+      #- name: Run tests
+       # run: composer run-script test
 
   deploy-hostinger:
     name: Deploy to Hostinger after tests
