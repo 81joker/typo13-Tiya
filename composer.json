@@ -14,7 +14,7 @@
 		"sort-packages": true
 	},
 	"require": {
-		"tim/my-project": "1.0.*",
+		"tim/my-project": "@dev",
 		"typo3/cms-backend": "^13.4",
 		"typo3/cms-belog": "^13.4",
 		"typo3/cms-beuser": "^13.4",
