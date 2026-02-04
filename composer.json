@@ -46,5 +46,10 @@
 			"type": "path",
 			"url": "./packages/*"
 		}
-	]
+	],
+	"extra": {
+		"typo3/cms": {
+			"extension-key": "my_extension"
+		}
+	}
 }
