@@ -32,15 +32,26 @@ jobs:
         run: composer require typo3/minimal "^${{ matrix.typo3-versions }}" --prefer-dist --no-progress --no-suggest
 
       #- name: Run tests
-       # run: composer run-script test
+      # run: composer run-script test
 
   deploy-hostinger:
-    name: Deploy to Hostinger after tests
+    name: Deploy to Hostinger (SSH)
     needs: tests
-    if: success()
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-      # Compile/build steps here if necessary (e.g., composer install --no-dev --optimize-autoloader)
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.HOSTINGER_SSH_HOST }}
+          username: ${{ secrets.HOSTINGER_SSH_USER }}
+          key: ${{ secrets.HOSTINGER_SSH_KEY }}
+          script: |
+            cd ${{ secrets.HOSTINGER_PATH }}
+            git pull origin main
+            composer install --no-dev --optimize-autoloader
+            php vendor/bin/typo3 cache:flush
+            # php vendor/bin/typo3 database:migrate
