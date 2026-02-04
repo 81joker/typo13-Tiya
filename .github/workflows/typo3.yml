@@ -1,38 +1,46 @@
-name: TYPO3 TER Release
+name: Testing and TER deployment
 
-on:
-  push:
-    branches: ["main"]
-  pull_request:
-    branches: ["main"]
+on: [push, pull_request]
 
 jobs:
-  ter-release:
+  tests:
+    name: Run tests using PHP ${{ matrix.php-versions }} with TYPO3 ${{ matrix.typo3-versions }}
     runs-on: ubuntu-latest
-    env:
-      TYPO3_EXTENSION_KEY: ${{ secrets.TYPO3_EXTENSION_KEY }}
-      TYPO3_REPOSITORY_URL: ${{ secrets.TYPO3_REPOSITORY_URL }}
-      TYPO3_API_TOKEN: ${{ secrets.TYPO3_API_TOKEN }}
-      TYPO3_API_USERNAME: ${{ secrets.TYPO3_API_USERNAME }}
-      TYPO3_API_PASSWORD: ${{ secrets.TYPO3_API_PASSWORD }}
+    strategy:
+      matrix:
+        php-versions: ["8.2"]
+        typo3-versions: ["13.1"]
+
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v2
 
-      - name: Get version from Git tag
-        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+      - uses: shivammathur/setup-php@v2
         with:
-          php-version: "8.1"
+          php-version: ${{ matrix.php-versions }}
           extensions: intl, mbstring, xml, soap, zip, curl
 
-      - name: Install TYPO3 Tailor
-        run: composer global require typo3/tailor --no-progress --prefer-dist
+      - name: Cache composer dependencies
+        uses: actions/cache@v1
+        with:
+          path: ~/.composer/cache
+          key: php-${{ matrix.php-versions }}-typo3-${{ matrix.typo3-versions }}-composer-${{ hashFiles('composer.json') }}
+          restore-keys: |
+            php-${{ matrix.php-versions }}-typo3-${{ matrix.typo3-versions }}-composer-
+            php-${{ matrix.php-versions }}-typo3-
 
-      # - name: Publish extension to TER
-      #   run: |
-      #     ~/.composer/vendor/bin/tailor ter:publish \
-      #       $TYPO3_EXTENSION_KEY \
-      #       $VERSION
+      - name: Install composer dependencies
+        run: composer require typo3/minimal "^${{ matrix.typo3-versions }}" --prefer-dist --no-progress --no-suggest
+
+      - name: Run tests
+        run: composer run-script test
+
+  deploy-hostinger:
+    name: Deploy to Hostinger after tests
+    needs: tests
+    if: success()
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      # Compile/build steps here if necessary (e.g., composer install --no-dev --optimize-autoloader)
